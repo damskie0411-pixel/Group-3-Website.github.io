@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ML Counter Card Game</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="gamestyle.css">
+  <link rel="stylesheet" href="BGStyle.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+</head>
+<body>
+  <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+            <a href="counter.html">Counter Picker</a>
+                <a href="draft.html">Draft Simulator</a>
+                    <a href="tierlist.html">Hero Tier List</a>
+                        <a href="roles.html">Roles & Tips</a>
+                            <a href="patchnotes.html">Patch Notes</a>
+   <a href="ML%20GAME.html">ML Counter Game</a>
+       </nav>
+  <div class="bg bg1"></div>
+  <div class="bg bg2"></div>
+
+    <div id="startScreen" class="animated-glow">
+  <h1> Mobile Legends Card Game</h1>
+  <button id="startButton">Play</button>
+</div>
+  <h1>ML Counter Card Game</h1>
+
+  <h2>Score: <span id="score">0</span></h2>
+  <h2>Lives: <span id="lives">3</span></h2>
+
+  <div id="enemyCard" class="card enemy"></div>
+
+  <h2>Your Cards</h2>
+  <div id="playerCards" class="cards"></div>
+
+  <p id="result"></p>
+
+<div id="gameOver" style="display: none;">
+  <h3 class="lose-glow">💀 Game Over! <br>
+  <span id="finalScore"></span>
+  <br>
+  <button id="playAgain" onclick="resetGame()">Play Again</button>
+</div> 
+
+<div id="winScreen" class="overlay">
+  <h4 class="win-glow">🏆 You Win! <br>
+  <span>Your Score: <span id="winScore"></span></span><br><br>
+  <button onclick="resetGame()">Play Again</button>
+</div> 
+
+<div id="heroList"></div>
+
+  <!-- Load heroes first -->
+  <script src="heroes.js"></script>
+
+  <script src="script.js"></script>
+
+  <script src="Background.js"></script>
+
+  <audio id="bgMusic" src="audio/Welcome to mobile legends_ Sound Effects.mp3"></audio>
+</body>
+</html>

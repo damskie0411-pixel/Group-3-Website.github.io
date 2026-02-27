@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MLBB Hub - Draft Simulator</title>
+<link rel="stylesheet" href="style.css">
+<script>
+const heroes = [
+"Aamon","Akai","Aldous","Alice","Alpha","Angela","Argus","Arlott","Atlas","Aulus",
+"Aurora","Badang","Balmond","Bane","Barats","Baxia","Beatrix","Belerick","Benedetta",
+"Brody","Bruno","Carmilla","Cecilion","Chang'e","Chou","Claude","Clint","Cyclops",
+"Diggie","Dyrroth","Edith","Esmeralda","Estes","Eudora","Fanny","Floryn","Franco",
+"Fredrinn","Freya","Gatotkaca","Gloo","Gord","Granger","Grock","Guinevere","Gusion",
+"Hanabi","Hanzo","Harith","Harley","Hayabusa","Helcurt","Hilda","Hylos","Irithel",
+"Jawhead","Johnson","Joy","Julian","Kadita","Kagura","Kaja","Karina","Karrie",
+"Khaleed","Khufra","Kimmy","Lancelot","Lapu-Lapu","Layla","Leomord","Lesley","Ling",
+"Lolita","Luo Yi","Lylia","Martis","Masha","Mathilda","Melissa","Minotaur","Minsitthar",
+"Moskov","Nana","Natalia","Natan","Novaria","Odette","Paquito","Pharsa","Phoveus",
+"Popol and Kupa","Rafaela","Roger","Ruby","Saber","Selena","Silvanna","Sun",
+"Terizla","Thamuz","Tigreal","Uranus","Valentina","Vale","Valir","Vexana","Wanwan",
+"X.Borg","Xavier","Yi Sun-shin","Yin","Yve","Zhask","Zilong"
+];
+
+const counters = {}; // Optional if you want analyzeDraft to use counters
+heroes.forEach(h => { counters[h] = ["Franco","Khufra","Saber"]; });
+
+let blueTeam = [];
+let redTeam = [];
+
+window.onload = function() {
+    const blueSelect = document.getElementById("blueSelect");
+    const redSelect = document.getElementById("redSelect");
+
+    heroes.forEach(h => {
+        const opt1 = document.createElement("option");
+        opt1.value = h;
+        opt1.text = h;
+        blueSelect.add(opt1);
+
+        const opt2 = document.createElement("option");
+        opt2.value = h;
+        opt2.text = h;
+        redSelect.add(opt2);
+    });
+}
+
+function addHero(side){
+    const hero = side=="blue" ? document.getElementById("blueSelect").value : document.getElementById("redSelect").value;
+    if(blueTeam.includes(hero) || redTeam.includes(hero)){
+        alert("Hero already picked!");
+        return;
+    }
+    if(side=="blue" && blueTeam.length<5) blueTeam.push(hero);
+    if(side=="red" && redTeam.length<5) redTeam.push(hero);
+    renderPicks();
+}
+
+function renderPicks(){
+    document.getElementById("bluePicks").innerHTML = blueTeam.map(h=>`<div class="slot">${h}</div>`).join("");
+    document.getElementById("redPicks").innerHTML = redTeam.map(h=>`<div class="slot">${h}</div>`).join("");
+}
+
+function analyzeDraft(){
+    let blueScore=0, redScore=0;
+    blueTeam.forEach(b=>{
+        redTeam.forEach(r=>{
+            if(counters[r].includes(b)) redScore+=2;
+            if(counters[b].includes(r)) blueScore+=2;
+        });
+    });
+    let winner="Draw";
+    if(blueScore>redScore) winner="Blue Team Advantage";
+    if(redScore>blueScore) winner="Red Team Advantage";
+    document.getElementById("draftResult").innerHTML = `<b>${winner}</b><br>Blue Score: ${blueScore} | Red Score: ${redScore}`;
+}
+</script>
+</head>
+
+<body>
+<!-- NAVIGATION -->
+<nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+            <a href="counter.html">Counter Picker</a>
+                <a href="draft.html">Draft Simulator</a>
+                    <a href="tierlist.html">Hero Tier List</a>
+                        <a href="roles.html">Roles & Tips</a>
+                            <a href="patchnotes.html">Patch Notes</a>
+   <a href="ML%20GAME.html">ML Counter Game</a>
+       </nav>
+   
+<div class="container">
+    <h1>Draft Simulator</h1>
+
+    <div class="card">
+        <div class="team-box">
+            <h2>Blue Team</h2>
+            <select id="blueSelect"></select>
+            <button onclick="addHero('blue')">Add Pick</button>
+            <div id="bluePicks"></div>
+        </div>
+
+        <div class="team-box" style="margin-top:25px;">
+            <h2>Red Team</h2>
+            <select id="redSelect"></select>
+            <button onclick="addHero('red')">Add Pick</button>
+            <div id="redPicks"></div>
+        </div>
+
+        <button onclick="analyzeDraft()" style="margin-top:20px;">Analyze Draft</button>
+
+        <div id="draftResult" class="card" style="margin-top:20px;"></div>
+    </div>
+</div>
+</body>
+</html>
